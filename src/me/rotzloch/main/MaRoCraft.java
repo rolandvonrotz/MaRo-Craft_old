@@ -1,0 +1,77 @@
+package me.rotzloch.main;
+
+import me.rotzloch.Classes.Helper;
+import me.rotzloch.Commands.FarmCommandExecutor;
+import me.rotzloch.Commands.LandCommandExecutor;
+import me.rotzloch.listener.AutoReplantListener;
+import me.rotzloch.listener.FarmListener;
+import me.rotzloch.listener.ItemStackerListener;
+import me.rotzloch.listener.LandListener;
+import me.rotzloch.listener.MoneyPerBlockListener;
+import me.rotzloch.listener.RewardListener;
+
+import org.bukkit.plugin.java.JavaPlugin;
+
+public class MaRoCraft extends JavaPlugin {
+	
+	@Override
+	public void onDisable() {
+		if(Helper._farmonatorMysql != null){
+			Helper._farmonatorMysql.close();
+		}
+		if(Helper._farmonatorSQLLite != null){
+			Helper._farmonatorSQLLite.close();
+		}
+		if(Helper._rewardMysql != null){
+			Helper._rewardMysql.close();
+		}
+		if(Helper._rewardSQLLite != null){
+			Helper._rewardSQLLite.close();
+		}
+	}
+
+	@Override
+	public void onEnable() {
+		Helper.setPlugin(this);
+		Helper.LoadConfig();
+		if(Helper.Config().getBoolean("config.Land.SellBySign")) {
+			Helper.RegisterListener(new LandListener());
+		}
+		if(Helper.Config().getBoolean("config.Land.TaxEnabled")) {
+			Helper.StartTax();
+		}
+		if(Helper.Config().getBoolean("config.ItemStacker.Enabled")) {
+			Helper.RegisterListener(new ItemStackerListener());
+		}
+		if(Helper.Config().getBoolean("config.MoneyPerBlock.Enabled")) {
+			Helper.RegisterListener(new MoneyPerBlockListener());
+		}
+		if(Helper.Config().getBoolean("config.AutoReplant.Enabled")) {
+			Helper.RegisterListener(new AutoReplantListener());
+		}
+		
+		this.getCommand("land").setExecutor(new LandCommandExecutor());
+		if(Helper.Config().getBoolean("config.Farmonator.Enabled")) {
+			if(this.InitDB("Farmonator")) {
+				Helper.LoadFarmonatorFromDB();
+				this.getCommand("farm").setExecutor(new FarmCommandExecutor());
+				Helper.RegisterListener(new FarmListener());
+			}
+		}
+		if(Helper.Config().getBoolean("config.Reward.Enabled")) {
+			this.InitDB("Reward");
+			Helper.LoadRewardLocks();
+			Helper.RegisterListener(new RewardListener());
+		}
+		Helper.LogInfo("wurde erfolgreich geladen!");
+	}
+
+	private boolean InitDB(String TableName) {
+		String host = Helper.Config().getString("config."+TableName+".db.Hostname");
+		String port = Helper.Config().getString("config."+TableName+".db.Port");
+		String data = Helper.Config().getString("config."+TableName+".db.Database");
+		String user = Helper.Config().getString("config."+TableName+".db.User");
+		String pass = Helper.Config().getString("config."+TableName+".db.Password");
+		return Helper.MySQLInit(host, port, data, user, pass, TableName);		
+	}
+}

@@ -1,0 +1,12 @@
+# Copyright (C) 2012 Rotzloch (roland.vonrotz@gmail.com)
+name: MaRo-Craft
+main: me.rotzloch.main.MaRoCraft
+version: 0.2
+depend: [Vault, WorldEdit, WorldGuard]
+commands:
+  land:
+    description: Hauptbefehl fuer GSManagement
+    usage: Gib /land help ein, um mehr Informationen zu bekommen.
+  farm:
+    description: Hauptbefehl fuer Farmonator
+    usage: /farm help

@@ -1,0 +1,36 @@
+<project>
+	<path id="libs">
+		<fileset dir="../lib">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+	
+	<target name="clean">
+		<delete dir="../build"/>
+	</target>
+	
+	<target name="CompileAndBuild">
+		<antcall target="clean"/>
+		<antcall target="compile"/>
+		<antcall target="buildJar"/>
+	</target>
+	<target name="compile">
+		<mkdir dir="../build/maro-craft"/>
+		<javac 
+			srcdir="."
+			excludes="ant,lib,build"
+			destdir="../build/maro-craft" 
+			encoding="iso-8859-1">
+			<classpath refid="libs" />
+		</javac>
+	</target>
+	<target name="buildJar">
+		<mkdir dir="../build/jar"/>
+		<copy file="./plugin.yml" tofile="../build/maro-craft/plugin.yml"/>
+		<jar destfile="../build/jar/maro.jar" basedir="../build/marocraft">
+			<manifest>
+				<attribute name="Main-Class" value="me.rotzloch.main.MaRoCraft" />
+			</manifest>
+		</jar>
+	</target>
+</project>
