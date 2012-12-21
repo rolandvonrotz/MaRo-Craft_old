@@ -17,7 +17,7 @@
 	<target name="compile">
 		<mkdir dir="../build/maro-craft"/>
 		<javac 
-			srcdir="."
+			srcdir="../"
 			excludes="ant,lib,build"
 			destdir="../build/maro-craft" 
 			encoding="iso-8859-1">
@@ -26,7 +26,7 @@
 	</target>
 	<target name="buildJar">
 		<mkdir dir="../build/jar"/>
-		<copy file="./plugin.yml" tofile="../build/maro-craft/plugin.yml"/>
+		<copy file="../plugin.yml" tofile="../build/maro-craft/plugin.yml"/>
 		<jar destfile="../build/jar/maro.jar" basedir="../build/marocraft">
 			<manifest>
 				<attribute name="Main-Class" value="me.rotzloch.main.MaRoCraft" />
