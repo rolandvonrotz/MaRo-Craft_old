@@ -23,7 +23,6 @@ public class FarmCommandExecutor implements CommandExecutor {
 	}
 
 	public FarmCommandExecutor() {
-		Helper.LogInfo("Farmonator Commands initialized.");
 	}
 
 	@Override
