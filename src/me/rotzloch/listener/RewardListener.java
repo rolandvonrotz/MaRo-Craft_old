@@ -18,7 +18,7 @@ public class RewardListener implements Listener{
 	@EventHandler (priority = EventPriority.HIGHEST) 
     public void onSignChangeEvent(SignChangeEvent ev) {
         Reward reward = new Reward(ev, ev.getPlayer());
-        if(reward != null && !ev.isCancelled()) {
+        if(reward != null && !ev.isCancelled() && ev.getLine(0).equalsIgnoreCase("[Reward]")) {
         	Helper.SendMessageInfo(ev.getPlayer(), "Reward erstellt");
         }
 	}
