@@ -35,8 +35,9 @@
 		</jar>
 	</target>
 	<target name="buildZip">
+		<copy file="../lib/SQLibrary.jar" tofile="../build/jar/SQLibrary.jar"/>
 		<zip destfile="../build/maro-craft.zip"
-		       basedir="../"
-		       includes="build/jar/maro.jar, lib/SQLibrary.jar"/>
+		       basedir="../build/jar/"
+		       includes="*.jar"/>
 	</target>
 </project>
