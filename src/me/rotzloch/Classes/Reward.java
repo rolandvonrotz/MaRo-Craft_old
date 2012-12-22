@@ -38,7 +38,6 @@ public class Reward {
         	this._rewardTPLocation = new Location(player.getWorld(),x,y,z);
         	this._rewardTimeLock = Integer.parseInt(ev.getLine(2));
         } else {
-        	ev.setCancelled(true);
             return;
         }
 	}
