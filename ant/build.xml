@@ -13,6 +13,7 @@
 		<antcall target="clean"/>
 		<antcall target="compile"/>
 		<antcall target="buildJar"/>
+		<antcall target="buildZip"/>
 	</target>
 	<target name="compile">
 		<mkdir dir="../build/maro-craft"/>
@@ -32,5 +33,10 @@
 				<attribute name="Main-Class" value="me.rotzloch.main.MaRoCraft" />
 			</manifest>
 		</jar>
+	</target>
+	<target name="buildZip">
+		<zip destfile="../build/maro-craft.zip"
+		       basedir="../"
+		       includes="build/jar/maro.jar, lib/SQLibrary.jar"/>
 	</target>
 </project>
