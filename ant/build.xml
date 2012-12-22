@@ -28,7 +28,7 @@
 	<target name="buildJar">
 		<mkdir dir="../build/jar"/>
 		<copy file="../plugin.yml" tofile="../build/maro-craft/plugin.yml"/>
-		<jar destfile="../build/jar/maro.jar" basedir="../build/maro-craft">
+		<jar destfile="../build/jar/maro-craft.jar" basedir="../build/maro-craft">
 			<manifest>
 				<attribute name="Main-Class" value="me.rotzloch.main.MaRoCraft" />
 			</manifest>
