@@ -90,12 +90,11 @@ public class Helper {
 	public static FileConfiguration Config() {
 		return Helper._plugin.getConfig();
 	}
-	@SuppressWarnings("deprecation")
 	public static int StartAsyncTask(Runnable run, long timeTicks){
-		return Helper._plugin.getServer().getScheduler().scheduleAsyncRepeatingTask(Helper._plugin, run, timeTicks, timeTicks);
+		return Helper._plugin.getServer().getScheduler().runTaskTimerAsynchronously(Helper._plugin, run, timeTicks, timeTicks).getTaskId();
 	}
 	public static void StartDelayedTask(Runnable run, long timeTicks) {
-		Helper._plugin.getServer().getScheduler().scheduleSyncDelayedTask(Helper._plugin, run, timeTicks);
+		Helper._plugin.getServer().getScheduler().runTaskLaterAsynchronously(Helper._plugin, run, timeTicks);
 	}
 	public static void StopAsyncTask(int TaskId) {
 		Helper._plugin.getServer().getScheduler().cancelTask(TaskId);
