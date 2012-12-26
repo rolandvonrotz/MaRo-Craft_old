@@ -4,7 +4,6 @@ import me.rotzloch.Classes.Helper;
 import me.rotzloch.Classes.Land;
 
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -12,24 +11,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 
 public class LandListener  implements Listener{
-	@EventHandler
-	public void OnPlayerJoin(PlayerJoinEvent event) {
-		final Player player = event.getPlayer();
-		if(!player.hasPlayedBefore()) {
-			Helper.StartDelayedTask(new Runnable() {
-				
-				@Override
-				public void run() {
-					player.teleport(new Location(Helper.GetWorld("world_help"), 7.5, 64, 5.5),TeleportCause.PLUGIN);
-				}
-			}, 10L);
-		}
-	}
-	
 	@EventHandler
 	public void OnBlockPlace(SignChangeEvent event) {
 		try {
