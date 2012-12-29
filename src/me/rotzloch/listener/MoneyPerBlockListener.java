@@ -19,8 +19,10 @@ public class MoneyPerBlockListener implements Listener{
 			if(eventType != Material.AIR && eventType != Material.BED && eventType != Material.BOAT &&
 			   eventType != Material.SIGN && eventType != Material.SNOW && eventType != Material.TORCH && 
 			   eventType != Material.REDSTONE && eventType != Material.REDSTONE_WIRE) {
-				if(Helper.HasPlayerAccountAndEnoughBalance(player.getName(), 0)) {
-					Helper.PayToTarget(null, player.getName(), Helper.BlockBreakMoney());
+				if(Helper._blocksBreaked.containsKey(player.getName())){
+					Helper._blocksBreaked.put(player.getName(), Helper._blocksBreaked.get(player.getName())+1);
+				} else {
+					Helper._blocksBreaked.put(player.getName(), 1);
 				}
 			}
 		}

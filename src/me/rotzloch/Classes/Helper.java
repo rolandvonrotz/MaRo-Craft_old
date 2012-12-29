@@ -43,6 +43,8 @@ public class Helper {
 	public static MySQL _rewardMysql;
 	public static SQLite _farmonatorSQLLite;
 	public static SQLite _rewardSQLLite;
+	public static Map<String, Integer> _blocksBreaked;
+	public static Integer _blocksBreakTaskId;
 	private static Map<String, Farm> _regions;
 	private static List<RewardLock> _rewardLocks;
 	private static File pFolder = new File("plugins" + File.separator + "MaRo-Craft");
@@ -52,7 +54,7 @@ public class Helper {
 		Helper._plugin = plugin;
 		Helper._pm = Helper._plugin.getServer().getPluginManager();
 		Helper._mcLog = Helper._plugin.getLogger();
-		
+		Helper._blocksBreaked = new HashMap<String, Integer>();
 		return Helper.setupEconomy();
 	}
 	public static void LoadConfig() {
@@ -64,6 +66,7 @@ public class Helper {
 		Helper.Config().addDefault("config.Land.SellBySign", true);
 		Helper.Config().addDefault("config.MoneyPerBlock.Enabled", true);
 		Helper.Config().addDefault("config.MoneyPerBlock.Amount", 0.05);
+		Helper.Config().addDefault("config.MoneyPerBlock.Minutes", 5);
 		Helper.Config().addDefault("config.ItemStacker.Enabled", true);
 		Helper.Config().addDefault("config.ItemStacker.Radius", 5);
 		Helper.Config().addDefault("config.ItemStacker.Normal", true);
@@ -112,6 +115,25 @@ public class Helper {
 		return Helper._plugin.getServer().getWorld(name);
 	}
 	
+	public static void StartMoneyPerBlockPay(){
+		long ticks = Helper.Config().getLong("config.MoneyPerBlock.Minutes") * 60;
+		ticks = ticks * 20;
+		MoneyPerPlayer mpp = new MoneyPerPlayer();
+		Helper._blocksBreakTaskId = Helper.StartAsyncTask(mpp,ticks);
+	}
+	public static void CalcMoney(Map<String, Integer> blocksBreaked){
+		for (Map.Entry<String, Integer> entry : blocksBreaked.entrySet()) {
+			if(Helper.HasPlayerAccountAndEnoughBalance(entry.getKey(), 0)) {
+				Helper.PayToTarget(null, entry.getKey(), Helper.BlockBreakMoney()*entry.getValue());
+			}
+			Player player = Helper.GetPlayer(entry.getKey());
+			if(player != null) {
+				Helper.SendMessageInfo(player, "Du hast in den letzten " +Helper.Config().getLong("config.MoneyPerBlock.Minutes")+ " Minuten, "+
+						Helper.BlockBreakMoney()*entry.getValue() +" "+Helper.GetCurrency()+ " verdient.");
+			}
+		}
+	}
+	
 	//Logger
 	public static void LogInfo(String message) {
 		Helper._mcLog.log(Level.INFO, message);
@@ -121,6 +143,12 @@ public class Helper {
 	}
 	
 	//Economy
+	public static String GetCurrency(){
+		if(Helper._econ != null){
+			return Helper._econ.currencyNamePlural();
+		}
+		return "";
+	}
 	private static boolean setupEconomy() {
 		if (Helper._pm.getPlugin("Vault") == null) {
 			Helper._pm.disablePlugin(Helper._plugin);
@@ -201,8 +229,11 @@ public class Helper {
 	}
 	
 	//SendMessage To Player
+	public static Player GetPlayer(String name){
+		return Helper._plugin.getServer().getPlayer(name);
+	}
 	private static boolean isPlayerOnline(Player player) {
-		if(Helper._plugin.getServer().getPlayer(player.getName()) != null) {
+		if(Helper.GetPlayer(player.getName()) != null) {
 			return true;
 		}
 		return false;

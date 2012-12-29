@@ -28,6 +28,11 @@ public class MaRoCraft extends JavaPlugin {
 		if(Helper._rewardSQLLite != null){
 			Helper._rewardSQLLite.close();
 		}
+		
+		if(Helper._blocksBreakTaskId != null && Helper._blocksBreakTaskId != -1){
+			Helper.StopAsyncTask(Helper._blocksBreakTaskId);
+			Helper.CalcMoney(Helper._blocksBreaked);
+		}
 	}
 
 	@Override
@@ -45,6 +50,7 @@ public class MaRoCraft extends JavaPlugin {
 		}
 		if(Helper.Config().getBoolean("config.MoneyPerBlock.Enabled")) {
 			Helper.RegisterListener(new MoneyPerBlockListener());
+			Helper.StartMoneyPerBlockPay();
 		}
 		if(Helper.Config().getBoolean("config.AutoReplant.Enabled")) {
 			Helper.RegisterListener(new AutoReplantListener());
