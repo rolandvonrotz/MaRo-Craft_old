@@ -123,13 +123,18 @@ public class Helper {
 	}
 	public static void CalcMoney(Map<String, Integer> blocksBreaked){
 		for (Map.Entry<String, Integer> entry : blocksBreaked.entrySet()) {
+			double pay = Helper.BlockBreakMoney()*entry.getValue();
+			pay = pay * 100;
+			pay = Math.round(pay);
+			pay = pay / 100;
+			
 			if(Helper.HasPlayerAccountAndEnoughBalance(entry.getKey(), 0)) {
-				Helper.PayToTarget(null, entry.getKey(), Helper.BlockBreakMoney()*entry.getValue());
+				Helper.PayToTarget(null, entry.getKey(), pay);
 			}
 			Player player = Helper.GetPlayer(entry.getKey());
 			if(player != null) {
 				Helper.SendMessageInfo(player, "Du hast in den letzten " +Helper.Config().getLong("config.MoneyPerBlock.Minutes")+ " Minuten, "+
-						Helper.BlockBreakMoney()*entry.getValue() +" "+Helper.GetCurrency()+ " verdient.");
+						pay +" "+Helper.GetCurrency()+ " verdient.");
 			}
 		}
 	}
