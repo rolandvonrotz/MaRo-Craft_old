@@ -1,6 +1,7 @@
 package me.rotzloch.main;
 
 import me.rotzloch.Classes.Helper;
+import me.rotzloch.Classes.Metrics;
 import me.rotzloch.Commands.FarmCommandExecutor;
 import me.rotzloch.Commands.LandCommandExecutor;
 import me.rotzloch.listener.AutoReplantListener;
@@ -69,6 +70,14 @@ public class MaRoCraft extends JavaPlugin {
 			Helper.LoadRewardLocks();
 			Helper.RegisterListener(new RewardListener());
 		}
+		try {
+		    Metrics metrics = new Metrics(this);
+		    metrics.start();
+		} catch (Exception ex) {
+		    // Failed to submit the stats :-(
+			Helper.LogError(ex.getMessage());
+		}
+		
 		Helper.LogInfo("wurde erfolgreich geladen!");
 	}
 
