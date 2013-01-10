@@ -1,8 +1,8 @@
-# Copyright (C) 2012 Rotzloch (roland.vonrotz@gmail.com)
+# Copyright (C) 2013 Rotzloch (roland.vonrotz@gmail.com)
 name: MaRo-Craft
 author: Rotzloch
 main: me.rotzloch.main.MaRoCraft
-version: 0.6
+version: 0.7
 depend: [Vault, WorldEdit, WorldGuard]
 commands:
   land:

@@ -64,14 +64,9 @@ public class Land {
 					if (!player.hasPermission("marocraft.nocorner")) {
 						this.setCorners(89);
 					}
-					Helper.SendMessageInfo(player, "'" + regionName
-							+ "' erfolgreich gekauft.");
-					Helper.SendMessageInfo(player, this.buyPrice
-							+ " Maros wurden deinem Konto abgezogen!");
+					Helper.SendMessageInfo(player, Text.LandBuyed(this.regionName,this.buyPrice));
 				} else {
-					Helper.SendMessageError(player,
-							"Dieses Grundstück ist zu teuer für dich");
-					Helper.SendMessageError(player, "Es kostet: " + buyPrice);
+					Helper.SendMessageError(player,Text.LandNotEnoughMoney(this.buyPrice));
 				}
 			} else {
 				this.Info();
@@ -92,10 +87,7 @@ public class Land {
 				}
 				Helper.PayToTarget(Helper.ServerAccount(), this.player.getName(),
 						this.sellPrice);
-				Helper.SendMessageInfo(this.player, "'" + this.regionName
-						+ "' erfolgreich verkauft.");
-				Helper.SendMessageInfo(player, this.sellPrice
-						+ " Maros wurden deinem Konto gutgeschrieben.");
+				Helper.SendMessageInfo(this.player,  Text.LandSelled(this.regionName,this.sellPrice));
 			}
 		}else
 		{
@@ -115,14 +107,12 @@ public class Land {
 				this.save();
 				Helper.PayToTarget(buyername, playername, sellprice);
 				event.getClickedBlock().breakNaturally();
-				Helper.BroadcastMessage(
-						"Grundstück '" + this.regionName + "' wurde von '"+buyername+"' gekauft.");
+				Helper.BroadcastMessage(Text.LandBuyWithSign(this.regionName, buyername));
 			} else {
-				Helper.SendMessageError(player, "Du hast zu wenig Maro's");
+				Helper.SendMessageError(player, Text.LandNotEnoughMoney(sellprice));
 			}
 		} else {
-			Helper.SendMessageError(player,
-					"Du kannst deine eigenen Grundstücke nicht kaufen.");
+			Helper.SendMessageError(player,Text.LandCanNotBuyYourLand);
 		}
 	}
 
@@ -133,9 +123,7 @@ public class Land {
 				members.addPlayer(playerName);
 				this.region.setMembers(members);
 				this.save();
-				Helper.SendMessageInfo(player, "Spieler '" + playerName
-						+ "' dem Grundstück '" + this.regionName
-						+ "' hinzugefügt.");
+				Helper.SendMessageInfo(player, Text.LandAddMember(this.regionName, playerName));
 			}
 		}
 	}
@@ -147,9 +135,7 @@ public class Land {
 				members.removePlayer(playerName);
 				this.region.setMembers(members);
 				this.save();
-				Helper.SendMessageInfo(player, "Spieler '" + playerName
-						+ "' vom Grundstück '" + this.regionName
-						+ "' entfernt.");
+				Helper.SendMessageInfo(player, Text.LandRemoveMember(this.regionName, playerName));
 			}
 		}
 	}
@@ -158,8 +144,7 @@ public class Land {
 		if (this.existAndOwner()) {
 			this.setFlag("use", "deny");
 			this.save();
-			Helper.SendMessageInfo(player, "Grundstück '" + this.regionName
-					+ "' wurde gesperrt.");
+			Helper.SendMessageInfo(player, Text.LandLock(this.regionName));
 		}
 	}
 
@@ -167,8 +152,7 @@ public class Land {
 		if (this.existAndOwner()) {
 			this.setFlag("use", "allow");
 			this.save();
-			Helper.SendMessageInfo(player, "Grundstück '" + this.regionName
-					+ "' wurde entsperrt.");
+			Helper.SendMessageInfo(player, Text.LandUnlock(this.regionName));
 		}
 	}
 
@@ -177,13 +161,12 @@ public class Land {
 			if (flag) {
 				this.setFlag("mob-spawning", "allow");
 				if (sendMessage) {
-					Helper.SendMessageInfo(player, "Mobs können nun spawnen");
+					Helper.SendMessageInfo(player, Text.LandMobsSpawn);
 				}
 			} else {
 				this.setFlag("mob-spawning", "deny");
 				if (sendMessage) {
-					Helper.SendMessageInfo(player,
-							"Mobs können nun nicht spawnen");
+					Helper.SendMessageInfo(player, Text.LandMobsNotSpawn);
 				}
 			}
 		}
@@ -194,8 +177,7 @@ public class Land {
 		if(playerName == "") {
 			playerName = this.player.getName();
 		}
-		Helper.SendMessageInfo(this.player, "Folgende GS besitzt "+playerName+":");
-		Helper.SendMessageInfo(this.player, "-----------------------");
+		Helper.SendMessageInfo(this.player, Text.LandGSList(playerName));
 		
 		for(World world : Helper.GetWorlds()) {
 			RegionManager regionm = Helper.getWorldGuard().getRegionManager(world);
@@ -210,13 +192,13 @@ public class Land {
 	public void Info() {
 		if (this.allreadyExist()) {
 			Helper.SendMessageInfo(this.player,
-					"Grundstück '" + this.region.getId() + "'");
+					Text.LandGS + "'" + this.region.getId() + "'");
 			if(this.region.getOwners().toPlayersString().length() > 0) {
-				Helper.SendMessageInfo(this.player, "Besitzer: "
+				Helper.SendMessageInfo(this.player, Text.LandOwners
 						+ this.region.getOwners().toPlayersString());
 			}
 			if(this.region.getMembers().size() > 0) {
-				Helper.SendMessageInfo(this.player, "Mitglieder: "
+				Helper.SendMessageInfo(this.player, Text.LandMembers
 						+ this.region.getMembers().toPlayersString());
 			}
 			String flags = this.GetFlags();
@@ -224,14 +206,10 @@ public class Land {
 				Helper.SendMessageInfo(this.player, flags);
 			}
 			if(this.region.getOwners().contains(this.player.getName())) {
-				Helper.SendMessageError(this.player, "Du kannst es verkaufen für "
-						+ this.sellPrice + " Maros.");
+				Helper.SendMessageError(this.player, Text.LandCanSell(this.sellPrice));
 			}
 		} else {
-			Helper.SendMessageError(this.player, "Grundstück '"
-					+ this.regionName + "' gehört niemandem.");
-			Helper.SendMessageInfo(this.player, "Du kannst es kaufen für "
-					+ this.buyPrice + " Maros.");
+			Helper.SendMessageError(this.player, Text.LandCanBuy(this.regionName, this.buyPrice));
 		}
 	}
 
@@ -245,8 +223,7 @@ public class Land {
 			event.setLine(0, ChatColor.DARK_BLUE + "[L-SELL]");
 			event.setLine(2, this.regionName);
 			event.setLine(3, player.getName());
-			Helper.BroadcastMessage("Grundstück '" + this.regionName
-					+ "' wird von '"+player.getName()+"' zum Verkauf angeboten.");
+			Helper.BroadcastMessage(Text.LandSellBySign(this.regionName, player.getName()));
 		}
 	}
 	public boolean existAndOwner() {

@@ -52,17 +52,13 @@ public class Reward {
 	}
 	
 	public void Help(Player player) {
-		player.sendMessage("§4Korrekte Anwendung:");
-		player.sendMessage("§d[Reward]");
-		player.sendMessage("§dItemId-Amount");
-		player.sendMessage("§dZeit in Sekunden");
-		player.sendMessage("§dx y z");
+		player.sendMessage(Text.RewardHelp());
 	}
 
 	public void GetReward(Player player) {
 		RewardLock lock = Helper.RewardLocks(this.ID(), player.getName());
 		if(lock != null) {
-			Helper.SendMessageError(player,"Diese Belohnung ist für dich noch gesperrt");
+			Helper.SendMessageError(player,Text.RewardLock);
 			return;
 		}
 		if(player != null && this._rewardString != null && this._rewardTimeLock != -1) {
@@ -84,7 +80,7 @@ public class Reward {
 			}
 			Helper.AddRewardLock(rewardLock);
 		} else {
-			Helper.SendMessageError(player, "Fehler");
+			Helper.SendMessageError(player, Text.Error);
 		}
 	}
 	

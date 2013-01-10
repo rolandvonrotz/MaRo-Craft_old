@@ -255,53 +255,17 @@ public class Helper {
 	}
 	public static void SendMessageNoPermission(Player player) {
 		if(Helper.isPlayerOnline(player)) {
-			player.sendMessage(ChatColor.RED +"Keine Berechtigung für diesen Befehl!");
+			player.sendMessage(ChatColor.RED +Text.NoPermission);
 		}
 	}
 	
 	//Help
 	public static void Help(Player player, String command) {
 		if(command.equalsIgnoreCase("land")) {
-			player.sendMessage(ChatColor.GOLD + "MaRo-Craft Land Help (/land help): ");
-			player.sendMessage(ChatColor.YELLOW + "-------------");
-			player.sendMessage(ChatColor.GREEN + "/land buy -> GS kaufen.");
-			player.sendMessage(ChatColor.GREEN + "/land sell -> GS verkaufen.");
-			player.sendMessage(ChatColor.GREEN
-					+ "/land add <Playername> -> Spieler als Member hinzufügen.");
-			player.sendMessage(ChatColor.GREEN
-					+ "/land remove <Playername> -> Spieler als Member entfernen.");
-			player.sendMessage(ChatColor.GREEN
-					+ "/land lock -> GS Sperren (Türen, Knöpfe, Schalter).");
-			player.sendMessage(ChatColor.GREEN + "/land unlock -> GS Entsperren.");
-			player.sendMessage(ChatColor.GREEN
-					+ "/land mobs <true/false> -> Mob-Spawning On/Off");
-			player.sendMessage(ChatColor.GREEN
-					+ "/land list -> Zeigt eine Liste deiner Grundstücke an.");
-			player.sendMessage(ChatColor.GREEN
-					+ "/land list <playername> -> Zeigt eine Liste der Grundstücke von <playername> an.");
-			player.sendMessage(ChatColor.GREEN + "/land info -> GS Information.");
+			player.sendMessage(Text.LandHelp());
 		}
 		else if(command.equalsIgnoreCase("farm")) {
-			player.sendMessage(ChatColor.RED + "Farmonator Hilfe:");
-			player.sendMessage(ChatColor.GOLD
-					+ "Neue Farmarea hinzufügen. WorldEdit Selection ist notwendig: ");
-			player.sendMessage(ChatColor.GREEN + "- /" + command
-					+ " add <FarmAreaID> <chestX> <chestY> <chestZ>");
-			player.sendMessage(ChatColor.GOLD
-					+ "Farmarea ändern. WorldEdit Selection ist notwendig: ");
-			player.sendMessage(ChatColor.GREEN + "- /" + command
-					+ " changeArea <areaID>");
-			player.sendMessage(ChatColor.GOLD + "Zugewiesene Truhe ändern: ");
-			player.sendMessage(ChatColor.GREEN + "- /" + command
-					+ " changeChest <areaID> <chestX> <chestY> <chestZ>");
-			player.sendMessage(ChatColor.GOLD + "Item Typ für FarmArea setzen: ");
-			player.sendMessage(ChatColor.GREEN + "- /" + command
-					+ " changeItem <areaID> <ItemID>");
-			player.sendMessage(ChatColor.GOLD + "FarmArea entfernen: ");
-			player.sendMessage(ChatColor.GREEN + "- /" + command
-					+ " remove <areaID>");
-			player.sendMessage(ChatColor.GOLD + "Eigene FarmAreas auflisten: ");
-			player.sendMessage(ChatColor.GREEN + "- /" + command + " list");
+			player.sendMessage(Text.FarmHelp());
 		}
 	}
 	

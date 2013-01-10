@@ -2,6 +2,7 @@ package me.rotzloch.listener;
 
 import me.rotzloch.Classes.Helper;
 import me.rotzloch.Classes.Reward;
+import me.rotzloch.Classes.Text;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -19,7 +20,7 @@ public class RewardListener implements Listener{
     public void onSignChangeEvent(SignChangeEvent ev) {
         Reward reward = new Reward(ev, ev.getPlayer());
         if(reward != null && !ev.isCancelled() && ev.getLine(0).equalsIgnoreCase("[Reward]")) {
-        	Helper.SendMessageInfo(ev.getPlayer(), "Reward erstellt");
+        	Helper.SendMessageInfo(ev.getPlayer(), Text.RewardCreated);
         }
 	}
 	
@@ -45,7 +46,7 @@ public class RewardListener implements Listener{
 					if(reward != null && !ev.isCancelled()) {
 						reward.GetReward(ev.getPlayer());
 					} else {
-						Helper.SendMessageError(ev.getPlayer(), "Fehler");
+						Helper.SendMessageError(ev.getPlayer(), Text.Error);
 					}
 				}
 			}

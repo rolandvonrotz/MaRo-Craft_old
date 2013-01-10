@@ -31,8 +31,7 @@ public class Tax implements Runnable{
 			price = price * 100;
 			price = Math.round(price);
 			price = price / 100;
-			player.sendMessage("Grundstücksteuer von " + price
-					+ " abgezogen.");
+			player.sendMessage(Text.LandTax(price));
 			Helper.PayToTarget(player.getName(), Helper.ServerAccount(),
 					price);
 		}

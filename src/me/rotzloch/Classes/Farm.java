@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -192,21 +191,15 @@ public class Farm {
 					this.id = id;
 					if(this.insertDatabase()){
 						Helper.setFarm(id, this);
-						player.sendMessage(ChatColor.GREEN
-								+ "[Farmonator] Farm '"+id+"' wurde gespeichert!");
+						player.sendMessage(Text.FarmSaved(id));
 					} else {
-						player.sendMessage(ChatColor.RED
-								+ "[Farmonator] Beim Speichern ist ein Fehler aufgetreten!");
-						Helper.LogError("Fehler beim Speichern in Datenbank");
+						player.sendMessage(Text.FarmFailedToSave);
 					}
-					
 				} else {
-					player.sendMessage(ChatColor.GREEN
-							+ "[Farmonator] Deine Farm überschneidet eine bestehende Farm!");
+					player.sendMessage(Text.FarmOverrideExistingFarm);
 				}
 			} else {
-				player.sendMessage(ChatColor.GREEN
-						+ "[Farmonator] Dieser Name existiert bereits!");
+				player.sendMessage(Text.FarmNameAllreadyExist);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -217,9 +210,7 @@ public class Farm {
 	public void ChangeFarmArea(String id, Player player) {
 		if (this.idExist(id)) {
 			Farm editFarm = Helper.FarmDB().get(id);
-			if(editFarm == null) {
-				Helper.LogError("Farm not found");
-			} else {
+			if(editFarm != null) {
 				if (editFarm.getPlayerName().equalsIgnoreCase(player.getName())) {
 					List<BlockVector> points = new ArrayList<BlockVector>();
 					points.add(Helper.getMinimumWedit(player));
@@ -229,25 +220,19 @@ public class Farm {
 					if (!this.isThereAExistFarmArea(editFarm)) {
 						if(this.updateDatabase(editFarm)){
 							Helper.setFarm(id, editFarm);
-							player.sendMessage(ChatColor.GREEN
-									+ "[Farmonator] Farm '"+id+"' wurde gespeichert!");
+							player.sendMessage(Text.FarmSaved(id));
 						} else {
-							player.sendMessage(ChatColor.RED
-									+ "[Farmonator] Beim Speichern ist ein Fehler aufgetreten!");
-							Helper.LogError("Fehler beim Speichern in Datenbank");
+							player.sendMessage(Text.FarmFailedToSave);
 						}
 					} else {
-						player.sendMessage(ChatColor.GREEN
-								+ "[Farmonator] Deine Farm überschneidet eine bestehende Farm!");
+						player.sendMessage(Text.FarmOverrideExistingFarm);
 					}
 				} else {
-					player.sendMessage(ChatColor.GREEN
-							+ "[Farmonator] Diese Farm gehört nicht dir.");
+					player.sendMessage(Text.FarmNotYours);
 				}
 			}
 		} else {
-			player.sendMessage(ChatColor.GREEN
-					+ "[Farmonator] Diese Farm existiert nicht.");
+			player.sendMessage(Text.FarmNotExist);
 		}
 	}
 
@@ -259,24 +244,18 @@ public class Farm {
 				if (!this.isThereAExistFarmArea(editFarm)) {
 					if(this.updateDatabase(editFarm)){
 						Helper.setFarm(id, editFarm);
-						player.sendMessage(ChatColor.GREEN
-								+ "[Farmonator] Farm '"+id+"' wurde gespeichert!");
+						player.sendMessage(Text.FarmSaved(id));
 					} else {
-						player.sendMessage(ChatColor.RED
-								+ "[Farmonator] Beim Speichern ist ein Fehler aufgetreten!");
-						Helper.LogError("Fehler beim Speichern in Datenbank");
+						player.sendMessage(Text.FarmFailedToSave);
 					}
 				} else {
-					player.sendMessage(ChatColor.GREEN
-							+ "[Farmonator] Deine Farm überschneidet eine bestehende Farm!");
+					player.sendMessage(Text.FarmOverrideExistingFarm);
 				}
 			} else {
-				player.sendMessage(ChatColor.GREEN
-						+ "[Farmonator] Diese Farm gehört nicht dir.");
+				player.sendMessage(Text.FarmNotYours);
 			}
 		} else {
-			player.sendMessage(ChatColor.GREEN
-					+ "[Farmonator] Diese Farm existiert nicht.");
+			player.sendMessage(Text.FarmNotExist);
 		}
 	}
 
@@ -288,24 +267,18 @@ public class Farm {
 				if (!this.isThereAExistFarmArea(editFarm)) {
 					if(this.updateDatabase(editFarm)){
 						Helper.setFarm(id, editFarm);
-						player.sendMessage(ChatColor.GREEN
-								+ "[Farmonator] Farm '"+id+"' wurde gespeichert!");
+						player.sendMessage(Text.FarmSaved(id));
 					} else {
-						player.sendMessage(ChatColor.RED
-								+ "[Farmonator] Beim Speichern ist ein Fehler aufgetreten!");
-						Helper.LogError("Fehler beim Speichern in Datenbank");
+						player.sendMessage(Text.FarmFailedToSave);
 					}
 				} else {
-					player.sendMessage(ChatColor.GREEN
-							+ "[Farmonator] Deine Farm überschneidet eine bestehende Farm!");
+					player.sendMessage(Text.FarmOverrideExistingFarm);
 				}
 			} else {
-				player.sendMessage(ChatColor.GREEN
-						+ "[Farmonator] Diese Farm gehört nicht dir.");
+				player.sendMessage(Text.FarmNotYours);
 			}
 		} else {
-			player.sendMessage(ChatColor.GREEN
-					+ "[Farmonator] Diese Farm existiert nicht.");
+			player.sendMessage(Text.FarmNotExist);
 		}
 	}
 
@@ -328,15 +301,12 @@ public class Farm {
 					Helper.LogError(e.getMessage());
 				}
 				
-				player.sendMessage(ChatColor.GREEN
-						+ "[Farmonator] Farm '"+id+"' wurde entfernt!");
+				player.sendMessage(Text.FarmRemoved(id));
 			} else {
-				player.sendMessage(ChatColor.GREEN
-						+ "[Farmonator] Diese Farm gehört nicht dir.");
+				player.sendMessage(Text.FarmNotYours);
 			}
 		} else {
-			player.sendMessage(ChatColor.GREEN
-					+ "[Farmonator] Diese Farm existiert nicht.");
+			player.sendMessage(Text.FarmNotExist);
 		}
 	}
 
