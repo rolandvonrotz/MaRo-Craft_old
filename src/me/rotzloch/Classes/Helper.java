@@ -58,6 +58,7 @@ public class Helper {
 		return Helper.setupEconomy();
 	}
 	public static void LoadConfig() {
+		Helper.Config().addDefault("config.Land.Enabled", false);
 		Helper.Config().addDefault("config.Land.BuyPrice", 200);
 		Helper.Config().addDefault("config.Land.AddBuyPricePerGS", 50);
 		Helper.Config().addDefault("config.Land.TaxEnabled", true);
@@ -73,14 +74,14 @@ public class Helper {
 		Helper.Config().addDefault("config.ItemStacker.ItemPerStack",256);
 		Helper.Config().addDefault("config.AutoReplant.Enabled", true);
 		Helper.Config().addDefault("config.AutoReplant.ReplantTicksWait", 40);
-		Helper.Config().addDefault("config.Reward.Enabled", true);
+		Helper.Config().addDefault("config.Reward.Enabled", false);
 		Helper.Config().addDefault("config.Reward.db.MySql", false);
 		Helper.Config().addDefault("config.Reward.db.Hostname", "localhost");
 		Helper.Config().addDefault("config.Reward.db.Database", "marocraft");
 		Helper.Config().addDefault("config.Reward.db.Port", "3306");
 		Helper.Config().addDefault("config.Reward.db.User", "USERNAME");
 		Helper.Config().addDefault("config.Reward.db.Password", "PASSWORD");
-		Helper.Config().addDefault("config.Farmonator.Enabled", true);
+		Helper.Config().addDefault("config.Farmonator.Enabled", false);
 		Helper.Config().addDefault("config.Farmonator.db.MySql", false);
 		Helper.Config().addDefault("config.Farmonator.db.Hostname", "localhost");
 		Helper.Config().addDefault("config.Farmonator.db.Database", "marocraft");

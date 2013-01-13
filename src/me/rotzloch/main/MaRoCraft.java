@@ -57,7 +57,10 @@ public class MaRoCraft extends JavaPlugin {
 			Helper.RegisterListener(new AutoReplantListener());
 		}
 		
-		this.getCommand("land").setExecutor(new LandCommandExecutor());
+		if(Helper.Config().getBoolean("config.Land.Enabled")){
+			this.getCommand("land").setExecutor(new LandCommandExecutor());
+		}
+		
 		if(Helper.Config().getBoolean("config.Farmonator.Enabled")) {
 			if(this.InitDB("Farmonator")) {
 				Helper.LoadFarmonatorFromDB();
