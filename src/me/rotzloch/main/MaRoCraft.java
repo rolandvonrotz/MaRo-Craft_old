@@ -86,7 +86,7 @@ public class MaRoCraft extends JavaPlugin {
 
 	private boolean InitDB(String TableName) {
 		String host = Helper.Config().getString("config."+TableName+".db.Hostname");
-		String port = Helper.Config().getString("config."+TableName+".db.Port");
+		int port = Helper.Config().getInt("config."+TableName+".db.Port");
 		String data = Helper.Config().getString("config."+TableName+".db.Database");
 		String user = Helper.Config().getString("config."+TableName+".db.User");
 		String pass = Helper.Config().getString("config."+TableName+".db.Password");

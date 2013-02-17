@@ -339,7 +339,7 @@ public class Helper {
     }
 
 	//MySQL or SQLite
-	public static boolean MySQLInit(String host, String port, String data, String user, String pass, String TableName) {		
+	public static boolean MySQLInit(String host, int port, String data, String user, String pass, String TableName) {		
 		String MySQLTable = TableName.toLowerCase();
 		if(TableName.equalsIgnoreCase("Farmonator")) {
 			String query = "CREATE TABLE IF NOT EXISTS `"+MySQLTable+"` (`id` varchar(50) NOT NULL,`world` varchar(30) NOT NULL,";
@@ -348,35 +348,37 @@ public class Helper {
 			query += "`maxPointZ` double NOT NULL,`truheX` double NOT NULL,`truheY` double NOT NULL,`truheZ` double NOT NULL,";
 			query += "PRIMARY KEY (`id`));";
 			if(Helper.Config().getBoolean("config.Farmonator.db.MySql")){
-				Helper._farmonatorMysql = new MySQL(Helper._mcLog,MySQLTable,host,port,data,user,pass);
+				Helper._farmonatorMysql = new MySQL(Helper._mcLog,"",host,port,data,user,pass);
+				
 				try{
 					Helper._farmonatorMysql.open();
+					if(Helper._farmonatorMysql.isOpen()){
+						if(!Helper._farmonatorMysql.isTable(MySQLTable)){
+							Helper.LogInfo("Creating "+MySQLTable+" Table");
+							Helper._farmonatorMysql.query(query);
+						}
+					} else {
+						Helper.LogError("MySql Connection failed!");
+					}
 				} catch(Exception e){
 					Helper.LogError(e.getMessage());
 					return false;
-				}
-				if(Helper._farmonatorMysql.checkConnection()){
-					if(!Helper._farmonatorMysql.checkTable(MySQLTable)){
-						Helper.LogInfo("Creating "+MySQLTable+" Table");
-						Helper._farmonatorMysql.createTable(query);
-					}
-				} else {
-					Helper.LogError("MySql Connection failed!");
 				}
 			}
 			else{
 				Helper._farmonatorSQLLite = new SQLite(Helper._mcLog,MySQLTable,MySQLTable,pFolder.getPath());
 				try{
 					Helper._farmonatorSQLLite.open();
+					if(!Helper._farmonatorSQLLite.isTable(MySQLTable)){
+						Helper.LogInfo("Creating "+MySQLTable+" Table");
+						Helper._farmonatorSQLLite.query(query);
+					}
 				} catch(Exception e){
 					Helper.LogError(e.getMessage());
 					return false;
 				}
 				
-				if(!Helper._farmonatorSQLLite.checkTable(MySQLTable)){
-					Helper.LogInfo("Creating "+MySQLTable+" Table");
-					Helper._farmonatorSQLLite.createTable(query);
-				}
+				
 			}
 			return true;
 			
@@ -388,33 +390,35 @@ public class Helper {
 				Helper._rewardMysql = new MySQL(Helper._mcLog,MySQLTable,host,port,data,user,pass);
 				try{
 					Helper._rewardMysql.open();
-				} catch(Exception e){
-					Helper.LogError(e.getMessage());
-					return false;
-				}
-				if(Helper._rewardMysql.checkConnection()){
-					if(!Helper._rewardMysql.checkTable(MySQLTable)){
-						Helper.LogInfo("Creating "+MySQLTable+" Table");
-						Helper._rewardMysql.createTable(query);
+					if(Helper._rewardMysql.isOpen()){
+						if(!Helper._rewardMysql.isTable(MySQLTable)){
+							Helper.LogInfo("Creating "+MySQLTable+" Table");
+							Helper._rewardMysql.query(query);
+						}
+					} else {
+						Helper.LogError("MySql Connection failed!");
+						return false;
 					}
-				} else {
-					Helper.LogError("MySql Connection failed!");
-					return false;
-				}
-			}
-			else{
-				Helper._rewardSQLLite = new SQLite(Helper._mcLog,MySQLTable,MySQLTable,pFolder.getPath());
-				try{
-					Helper._rewardSQLLite.open();
 				} catch(Exception e){
 					Helper.LogError(e.getMessage());
 					return false;
 				}
 				
-				if(!Helper._rewardSQLLite.checkTable(MySQLTable)){
-					Helper.LogInfo("Creating "+MySQLTable+" Table");
-					Helper._rewardSQLLite.createTable(query);
+			}
+			else{
+				Helper._rewardSQLLite = new SQLite(Helper._mcLog,MySQLTable,MySQLTable,pFolder.getPath());
+				try{
+					Helper._rewardSQLLite.open();
+					if(!Helper._rewardSQLLite.isTable(MySQLTable)){
+						Helper.LogInfo("Creating "+MySQLTable+" Table");
+						Helper._rewardSQLLite.query(query);
+					}
+				} catch(Exception e){
+					Helper.LogError(e.getMessage());
+					return false;
 				}
+				
+				
 			}
 			return true;
 		}
