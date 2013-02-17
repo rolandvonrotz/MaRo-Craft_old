@@ -58,7 +58,7 @@ public class Helper {
 		return Helper.setupEconomy();
 	}
 	public static void LoadConfig() {
-		Helper.Config().addDefault("config.Land.Enabled", false);
+		Helper.Config().addDefault("config.Land.Enabled", true);
 		Helper.Config().addDefault("config.Land.BuyPrice", 200);
 		Helper.Config().addDefault("config.Land.AddBuyPricePerGS", 50);
 		Helper.Config().addDefault("config.Land.TaxEnabled", true);
@@ -98,7 +98,7 @@ public class Helper {
 		return Helper._plugin.getServer().getScheduler().runTaskTimerAsynchronously(Helper._plugin, run, timeTicks, timeTicks).getTaskId();
 	}
 	public static void StartDelayedTask(Runnable run, long timeTicks) {
-		Helper._plugin.getServer().getScheduler().runTaskLaterAsynchronously(Helper._plugin, run, timeTicks);
+		Helper._plugin.getServer().getScheduler().runTaskLater(Helper._plugin, run, timeTicks);
 	}
 	public static void StopAsyncTask(int TaskId) {
 		Helper._plugin.getServer().getScheduler().cancelTask(TaskId);
