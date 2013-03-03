@@ -36,13 +36,13 @@ public class Text {
 	}
 	public static String LandBuyed(String regionName, double buyPrice){
 		String text = "'" + regionName+ "' erfolgreich gekauft.\n";
-		text += buyPrice + " Maros wurden deinem Konto abgezogen!";
+		text += String.format(" %s %s wurden deinem Konto abgezogen!", buyPrice, Helper.GetCurrency());
 		
 		return text;
 	}
 	public static String LandSelled(String regionName, double sellPrice){
 		String text = "'" + regionName+ "' erfolgreich verkauft.\n";
-		text += sellPrice + " Maros wurden deinem Konto gutgeschrieben.\n";
+		text += String.format(" %s %s wurden deinem Konto gutgeschrieben!", sellPrice, Helper.GetCurrency());
 		
 		return text;
 	}
@@ -71,16 +71,16 @@ public class Text {
 		return "Grundstück '" + regionName + "' wird von '"+playerName+"' zum Verkauf angeboten.";
 	}
 	public static String LandCanSell(double sellPrice){
-		return "Du kannst es verkaufen für " + sellPrice + " Maros.";
+		return String.format("Du kannst es verkaufen für %s %s", sellPrice, Helper.GetCurrency());
 	}
 	public static String LandCanBuy(String regionName, double buyPrice){
 		String text = "Grundstück '"+ regionName + "' gehört niemandem.\n";
-		text += "Du kannst es kaufen für " + buyPrice + " Maros.\n";
+		text += String.format("Du kannst es kaufen für %s %s!", buyPrice, Helper.GetCurrency());
 		
 		return text;
 	}
 	public static String LandTax(double price){
-		return "Grundstücksteuer von " + price + " abgezogen.";
+		return String.format("Grundstücksteuer von %s %s abgezogen.", price, Helper.GetCurrency());
 	}
 	public static String LandHelp(){
 		String help = ChatColor.GOLD + "MaRo-Craft Land Help (/land help): \n";
