@@ -62,7 +62,7 @@ public class Land {
 					Helper.PayToTarget(player.getName(), Helper.ServerAccount(),
 							buyPrice);
 					if (!player.hasPermission("marocraft.nocorner")) {
-						this.setCorners(89);
+						this.setCorners(50);
 					}
 					Helper.SendMessageInfo(player, Text.LandBuyed(this.regionName,this.buyPrice));
 				} else {
@@ -83,7 +83,7 @@ public class Land {
 				this.rm.removeRegion(this.regionName);
 				this.save();
 				if (!player.hasPermission("marocraft.nocorner")) {
-					//this.removeCorner(89);
+					this.setCorners(76);
 				}
 				Helper.PayToTarget(Helper.ServerAccount(), this.player.getName(),
 						this.sellPrice);
@@ -399,55 +399,8 @@ public class Land {
 		return flags;
 	}
 
-	// setCorners
 	private void setCorners(int cornerID) {
-	// int cornerID = 89;
-		for (int x = 0; x <= 15; x = x + 15)
-			for (int z = 0; z <= 15; z = z + 15) {
-				int y = this.world.getMaxHeight() - 2;
-
-				Block block = this.chunk.getBlock(x, y, z);
-				while (y >= 0) {
-					// Do not stack cornerID Blocks
-					if (block.getTypeId() == cornerID)
-						break;
-
-					switch (block.getType()) {
-					case LEAVES: // Fall through
-					case AIR:
-						y--;
-						break;
-
-					case SAPLING: // Fall through
-					case LONG_GRASS: // Fall through
-					case DEAD_BUSH: // Fall through
-					case YELLOW_FLOWER: // Fall through
-					case RED_ROSE: // Fall through
-					case BROWN_MUSHROOM: // Fall through
-					case RED_MUSHROOM: // Fall through
-					case SNOW:
-						block.setTypeId(cornerID);
-						y = -1;
-						break;
-
-					case BED_BLOCK: // Fall through
-					case POWERED_RAIL: // Fall through
-					case DETECTOR_RAIL: // Fall through
-					case RAILS: // Fall through
-					case STONE_PLATE: // Fall through
-					case WOOD_PLATE:
-						block.getRelative(0, 2, 0).setTypeId(cornerID);
-						y = -1;
-						break;
-
-					default:
-						block.getRelative(0, 1, 0).setTypeId(cornerID);
-						y = -1;
-						break;
-					}
-
-					block = block.getRelative(0, -1, 0);
-				}
-			}
+		MarkerTask task = new MarkerTask(this.world, this.chunk, cornerID);
+		Helper.StartDelayedTask(task, 1);
 	}
 }
