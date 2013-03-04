@@ -27,6 +27,7 @@ public class Text {
 	public static String LandMembers = "Mitglieder: ";
 	public static String LandOwners = "Besitzer: ";
 	public static String LandGS = "Grundstück ";
+	public static String LandCommandHereNotAllowed = "Dieser Befehl ist in dieser Welt nicht erlaubt.";
 	
 	public static String LandNotEnoughMoney(double buyPrice){
 		String text = "Dieses Grundstück ist zu teuer für dich\n";

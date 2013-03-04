@@ -1,7 +1,10 @@
 package me.rotzloch.Commands;
 
+import java.util.List;
+
 import me.rotzloch.Classes.Helper;
 import me.rotzloch.Classes.Land;
+import me.rotzloch.Classes.Text;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -24,6 +27,15 @@ public class LandCommandExecutor implements CommandExecutor {
 			if (sender instanceof Player) {
 				Action action;
 				Player player = (Player) sender;
+				
+				List<String> ignoreWorlds = Helper.Config().getStringList("config.Land.IgnoreWorlds");
+				
+				for(String worldname : ignoreWorlds){
+					if(player.getWorld().getName().equalsIgnoreCase(worldname)){
+						Helper.SendMessageInfo(player, Text.LandCommandHereNotAllowed);
+						return true;
+					}
+				}
 				
 				try {
 					action = Action.valueOf(args[0].toUpperCase());

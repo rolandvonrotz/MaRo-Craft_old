@@ -88,6 +88,8 @@ public class Helper {
 		Helper.Config().addDefault("config.Farmonator.db.Port", "3306");
 		Helper.Config().addDefault("config.Farmonator.db.User", "USERNAME");
 		Helper.Config().addDefault("config.Farmonator.db.Password", "PASSWORD");
+		List<String> emptyList = new ArrayList<String>();
+		Helper.Config().addDefault("config.Land.IgnoreWorlds", emptyList);
 		Helper.Config().options().copyDefaults(true);
 		Helper._plugin.saveConfig();
 	}
